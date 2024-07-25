@@ -64,6 +64,7 @@ const App = () => {
             <option value="S">S</option>
             <option value="M">M</option>
             <option value="L">L</option>
+            <option value="XL">XL</option>
             <option value="2XL">2XL</option>
             <option value="3XL">3XL</option>
             <option value="4XL">4XL</option>
