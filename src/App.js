@@ -17,7 +17,7 @@ const App = () => {
   const handleSubmit = () => {
     // Sending data to backend
     axios
-      .post("https://size-picker-server-mhc4dmgs6-satriadhms-projects.vercel.app/api/export", formData)
+      .post("https://size-picker-server.vercel.app/api/export", formData)
       .then((response) => {
         console.log("Data sent to backend");
       })
