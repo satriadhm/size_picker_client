@@ -5,6 +5,8 @@ import gambar1 from "./public/pic.jpg";
 
 const App = () => {
   const [formData, setFormData] = useState({ name: "", size: "" });
+  const [status, setStatus] = useState(""); // State for status messages
+  const [isLoading, setIsLoading] = useState(false); // State for loading indicator
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -14,14 +16,21 @@ const App = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    // Sending data to backend
-    axios
-      .post("https://size-picker-server.vercel.app/api/export", formData)
-      .then((response) => {
-        console.log("Data sent to backend");
-      })
-      .catch((error) => console.error("Error sending data:", error));
+  const handleSubmit = async () => {
+    setStatus(""); // Clear any previous status message
+    setIsLoading(true); // Set loading state to true
+
+    try {
+      console.log("Sending data to backend...");
+      const response = await axios.post("https://size-picker-server.vercel.app/api/export", formData);
+      console.log("Data sent to backend:", response.data);
+      setStatus("Data sent successfully!");
+    } catch (error) {
+      console.error("Error sending data:", error);
+      setStatus("Error sending data. Please try again.");
+    } finally {
+      setIsLoading(false); // Reset loading state
+    }
   };
 
   return (
@@ -65,9 +74,15 @@ const App = () => {
           <button
             onClick={handleSubmit}
             className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600"
+            disabled={isLoading} // Disable button while loading
           >
-            Submit Data
+            {isLoading ? "Submitting..." : "Submit Data"}
           </button>
+          {status && (
+            <p className={`mt-4 ${status.includes('Error') ? 'text-red-500' : 'text-green-500'}`}>
+              {status}
+            </p>
+          )}
         </div>
       </div>
     </div>
